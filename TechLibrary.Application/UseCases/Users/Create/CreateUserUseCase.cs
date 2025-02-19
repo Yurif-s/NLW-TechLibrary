@@ -1,5 +1,6 @@
 ﻿using TechLibrary.Communication.Requests;
 using TechLibrary.Communication.Responses;
+using TechLibrary.Exception;
 
 namespace TechLibrary.Application.UseCases.Users.Create;
 public class CreateUserUseCase
@@ -23,7 +24,7 @@ public class CreateUserUseCase
         {
             var errorsMessages = result.Errors.Select(error => error.ErrorMessage).ToList();
 
-            throw new Exception();
+            throw new ErrorOnValidationException(errorsMessages);
         }
     }
 }
