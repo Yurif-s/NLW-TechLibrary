@@ -11,7 +11,7 @@ public class CreateUserValidator : AbstractValidator<RequestUserJson>
         RuleFor(user => user.Password).NotEmpty().WithMessage("The password is required.");
         When(user => string.IsNullOrWhiteSpace(user.Password) == false, () =>
         {
-            RuleFor(user => user.Password.Length).GreaterThan(6).WithMessage("Password must be longer than 6 characters")
+            RuleFor(user => user.Password.Length).GreaterThan(6).WithMessage("Password must be longer than 6 characters");
         });
 
     }

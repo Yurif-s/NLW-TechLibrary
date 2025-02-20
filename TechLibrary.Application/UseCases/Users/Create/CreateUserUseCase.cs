@@ -1,6 +1,8 @@
 ﻿using TechLibrary.Communication.Requests;
 using TechLibrary.Communication.Responses;
+using TechLibrary.Domain.Entities;
 using TechLibrary.Exception;
+using TechLibrary.Infrastructure;
 
 namespace TechLibrary.Application.UseCases.Users.Create;
 public class CreateUserUseCase
@@ -9,9 +11,21 @@ public class CreateUserUseCase
     {
         Validate(request);
 
+        var entity = new User
+        {
+            Name = request.Name,
+            Email = request.Email,
+            Password = request.Password
+        };
+
+        var dbContext = new TechLibraryDbContext();
+
+        dbContext.Users.Add(entity);
+        dbContext.SaveChanges();
+
         return new ResponseCreatedUserJson
         {
-
+            Name = entity.Name
         };
     }
     private void Validate(RequestUserJson request)
