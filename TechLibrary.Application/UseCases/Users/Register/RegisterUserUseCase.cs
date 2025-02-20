@@ -1,4 +1,5 @@
-﻿using TechLibrary.Communication.Requests;
+﻿using FluentValidation.Results;
+using TechLibrary.Communication.Requests;
 using TechLibrary.Communication.Responses;
 using TechLibrary.Domain.Entities;
 using TechLibrary.Exception;
@@ -10,7 +11,9 @@ public class RegisterUserUseCase
 {
     public ResponseRegisteredUserJson Execute(RequestUserJson request)
     {
-        Validate(request);
+        var dbContext = new TechLibraryDbContext();
+
+        Validate(request, dbContext);
 
         var cryptography = new BCryptAlgorithm();
 
@@ -21,8 +24,6 @@ public class RegisterUserUseCase
             Password = cryptography.HashPassword(request.Password)
         };
 
-        var dbContext = new TechLibraryDbContext();
-
         dbContext.Users.Add(entity);
         dbContext.SaveChanges();
 
@@ -31,11 +32,15 @@ public class RegisterUserUseCase
             Name = entity.Name
         };
     }
-    private void Validate(RequestUserJson request)
+    private void Validate(RequestUserJson request, TechLibraryDbContext dbContext)
     {
         var validator = new RegisterUserValidator();
 
         var result = validator.Validate(request);
+
+        var existUserWithEmail = dbContext.Users.Any(user => user.Email.Equals(request.Email));
+        if (existUserWithEmail)
+            result.Errors.Add(new ValidationFailure("Email", "E-mail already registered on the platform."));
 
         if(result.IsValid == false)
         {
