@@ -10,13 +10,13 @@ namespace TechLibrary.Api.Controllers;
 public class UsersController : ControllerBase
 {
     [HttpPost]
-    [ProducesResponseType(typeof(ResponseCreatedUserJson), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ResponseRegisteredUserJson), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ResponseErrorMessages), StatusCodes.Status400BadRequest)]
-    public IActionResult Create(RequestUserJson request)
+    public IActionResult Register(RequestUserJson request)
     {
         try
         {
-            var useCase = new CreateUserUseCase();
+            var useCase = new RegisterUserUseCase();
 
             var response = useCase.Execute(request);
 

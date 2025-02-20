@@ -2,9 +2,9 @@
 using TechLibrary.Communication.Requests;
 
 namespace TechLibrary.Application.UseCases.Users.Create;
-public class CreateUserValidator : AbstractValidator<RequestUserJson>
+public class RegisterUserValidator : AbstractValidator<RequestUserJson>
 {
-    public CreateUserValidator()
+    public RegisterUserValidator()
     {
         RuleFor(user => user.Name).NotEmpty().WithMessage("The name is required.");
         RuleFor(user => user.Email).EmailAddress().WithMessage("The email is not valid.");

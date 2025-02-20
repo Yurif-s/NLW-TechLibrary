@@ -2,20 +2,23 @@
 using TechLibrary.Communication.Responses;
 using TechLibrary.Domain.Entities;
 using TechLibrary.Exception;
-using TechLibrary.Infrastructure;
+using TechLibrary.Infrastructure.DataAccess;
+using TechLibrary.Infrastructure.Security.Cryptography;
 
 namespace TechLibrary.Application.UseCases.Users.Create;
-public class CreateUserUseCase
+public class RegisterUserUseCase
 {
-    public ResponseCreatedUserJson Execute(RequestUserJson request)
+    public ResponseRegisteredUserJson Execute(RequestUserJson request)
     {
         Validate(request);
+
+        var cryptography = new BCryptAlgorithm();
 
         var entity = new User
         {
             Name = request.Name,
             Email = request.Email,
-            Password = request.Password
+            Password = cryptography.HashPassword(request.Password)
         };
 
         var dbContext = new TechLibraryDbContext();
@@ -23,14 +26,14 @@ public class CreateUserUseCase
         dbContext.Users.Add(entity);
         dbContext.SaveChanges();
 
-        return new ResponseCreatedUserJson
+        return new ResponseRegisteredUserJson
         {
             Name = entity.Name
         };
     }
     private void Validate(RequestUserJson request)
     {
-        var validator = new CreateUserValidator();
+        var validator = new RegisterUserValidator();
 
         var result = validator.Validate(request);
 

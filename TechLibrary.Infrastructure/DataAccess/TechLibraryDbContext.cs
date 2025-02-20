@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TechLibrary.Domain.Entities;
 
-namespace TechLibrary.Infrastructure;
+namespace TechLibrary.Infrastructure.DataAccess;
 public class TechLibraryDbContext : DbContext
 {
     public DbSet<User> Users { get; set; }
