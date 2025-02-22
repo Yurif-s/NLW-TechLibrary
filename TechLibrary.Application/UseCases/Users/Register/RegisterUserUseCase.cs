@@ -5,6 +5,7 @@ using TechLibrary.Domain.Entities;
 using TechLibrary.Exception;
 using TechLibrary.Infrastructure.DataAccess;
 using TechLibrary.Infrastructure.Security.Cryptography;
+using TechLibrary.Infrastructure.Tokens.Access;
 
 namespace TechLibrary.Application.UseCases.Users.Create;
 public class RegisterUserUseCase
@@ -27,9 +28,12 @@ public class RegisterUserUseCase
         dbContext.Users.Add(entity);
         dbContext.SaveChanges();
 
+        var tokenGenerator = new JwtTokenGenerator();
+
         return new ResponseRegisteredUserJson
         {
-            Name = entity.Name
+            Name = entity.Name,
+            AccessToken = tokenGenerator.Generate(entity)
         };
     }
     private void Validate(RequestUserJson request, TechLibraryDbContext dbContext)

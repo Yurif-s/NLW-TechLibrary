@@ -1,5 +1,5 @@
 ﻿namespace TechLibrary.Communication.Responses;
-public class ResponseErrorMessages
+public class ResponseErrorMessagesJson
 {
     public List<string> Errors { get; set; } = [];
 }

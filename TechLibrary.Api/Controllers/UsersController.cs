@@ -11,7 +11,7 @@ public class UsersController : ControllerBase
 {
     [HttpPost]
     [ProducesResponseType(typeof(ResponseRegisteredUserJson), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(ResponseErrorMessages), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status400BadRequest)]
     public IActionResult Register(RequestUserJson request)
     {
         try
@@ -24,14 +24,14 @@ public class UsersController : ControllerBase
         }
         catch (ErrorOnValidationException ex)
         {
-            return BadRequest(new ResponseErrorMessages
+            return BadRequest(new ResponseErrorMessagesJson
             {
                 Errors = ex.GetErrorMessages()
             });
         }
         catch
         {
-            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseErrorMessages
+            return StatusCode(StatusCodes.Status500InternalServerError, new ResponseErrorMessagesJson
             {
                 Errors = ["Unknow error."]
             });
