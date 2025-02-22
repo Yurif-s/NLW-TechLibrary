@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TechLibrary.Application.UseCases.Login.DoLogin;
 using TechLibrary.Communication.Requests;
+using TechLibrary.Communication.Responses;
 
 namespace TechLibrary.Api.Controllers;
 [Route("api/[controller]")]
@@ -8,6 +9,8 @@ namespace TechLibrary.Api.Controllers;
 public class LoginController : ControllerBase
 {
     [HttpPost]
+    [ProducesResponseType(typeof(ResponseRegisteredUserJson), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrorMessagesJson), StatusCodes.Status401Unauthorized)]
     public IActionResult DoLogin(RequestLoginJson request)
     {
         var useCase = new DoLoginUseCase();
