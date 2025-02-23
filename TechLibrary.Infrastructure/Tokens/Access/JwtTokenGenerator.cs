@@ -1,5 +1,4 @@
-﻿using Microsoft.IdentityModel.JsonWebTokens;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -30,7 +29,7 @@ public class JwtTokenGenerator
         return tokenHandler.WriteToken(securityToken);
     }
 
-    private static SymmetricSecurityKey SecurityKey()
+    private SymmetricSecurityKey SecurityKey()
     {
         var signingKey = "1z7s8OOES5f6ciwC9Owtd1DS9KjD5hnJ";
 
